@@ -1,0 +1,52 @@
+body{
+    /*font-family: "Trebuchet MS", Helvetica, sans-serif;*/
+}
+
+h1{
+    text-align: center;
+}
+
+#content {
+    padding: 20px;
+}
+
+#burgerList {
+    /*width: 400px; */
+    /*height: 100%; */
+    /*float: left; */
+    /*margin-right: 20px; */
+    /*background-color: gray;*/
+    /*padding: 10px;*/
+    background-color: #383B53;
+    color: white;
+}
+
+#burgerListSearch {
+    width: 100%; 
+    margin: 5px;
+    margin-bottom: 10px; 
+    font-size: 150%;
+}
+
+.burgerListItem{
+    width: 100%;
+    margin: 5px;
+/*margin-bottom: 10px; */
+/*border-style: solid; */
+/*border-width: 1px; */
+/*border-color: purple; */
+padding: 5px; 
+cursor: pointer;
+background-color: #66717E;
+/*border-radius: 5px;*/
+color: white;
+}
+
+.burgerListRating {
+
+    float: right;
+}
+
+.ratedBurger {
+
+}
