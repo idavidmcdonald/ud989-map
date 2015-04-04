@@ -145,28 +145,12 @@ var Burger = function(data){
 	this.lng = ko.observable(data.lng);
 };
 
-function initialize() {
-    var mapOptions = {
-      center: { lat: london.lat, lng: london.lng},
-      zoom: 12
-    };
-    var map = new google.maps.Map(document.getElementById('map-canvas'),
-        mapOptions);
 
-    $.each(initialBurgers, function(index, burger) {
-	  	var marker = new google.maps.Marker({
-		    position: {lat: burger.lat, lng: burger.lng},
-		    map: map,
-		    title: burger.name
-			});
-	});
-	        
-}
-google.maps.event.addDomListener(window, 'load', initialize);
 
 var ViewModel = {
 	searchCriteria: ko.observable(''),
 	burgers: ko.observableArray([]),
+	mapMarkers: ko.observableArray([]),
 	searchBurgers: ko.observableArray([]),
 	currentBurger: ko.observable(),
 
@@ -208,6 +192,32 @@ var ViewModel = {
 
 
 	}
+};
+
+
+// Google map binding to handle initial loading of map and the markers on it
+ko.bindingHandlers.googleMap = {
+    init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		mapOptions = {
+	        center: { lat: 51.532112, lng: -0.106384},
+	      	zoom: 12
+	    },
+      	map = new google.maps.Map(element, mapOptions);
+
+		$.each(bindingContext.$data.burgers(), function(index, burger) {
+		  	var marker = new google.maps.Marker({
+			    position: {lat: burger.lat(), lng: burger.lng()},
+			    map: map,
+			    title: burger.name()
+				});
+		});
+    },
+
+    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+        // This will be called once when the binding is first applied to an element,
+        // and again whenever any observables/computeds that are accessed change
+        // Update the DOM element based on the supplied values here.
+    }
 };
 
 
