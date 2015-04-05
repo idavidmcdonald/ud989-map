@@ -190,7 +190,6 @@ var ViewModel = {
 	    });
 	    ViewModel.currentBurger(ViewModel.burgers()[0]);
 
-
 	}
 };
 
@@ -204,19 +203,31 @@ ko.bindingHandlers.googleMap = {
 	    },
       	map = new google.maps.Map(element, mapOptions);
 
+      	// For each burger joint
 		$.each(bindingContext.$data.burgers(), function(index, burger) {
+		  	// Add new marker to map
 		  	var marker = new google.maps.Marker({
 			    position: {lat: burger.lat(), lng: burger.lng()},
 			    map: map,
 			    title: burger.name()
 				});
+
+		  	
+		  	// On click of a map marker, set the current burger joint to that marker
+			google.maps.event.addListener(marker, 'click', function() {
+			    ViewModel.setCurrentBurger(burger);
+			    // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+			});
+
 		});
+
     },
 
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
         // This will be called once when the binding is first applied to an element,
         // and again whenever any observables/computeds that are accessed change
         // Update the DOM element based on the supplied values here.
+        console.log('updated');
     }
 };
 
