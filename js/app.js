@@ -51,88 +51,88 @@ var initialBurgers = [
 		lng: -0.126894
 	},
 	{
-		name: 'Burger Bear',
+		name: 'Stokey Bears',
 		location: 'Stoke Newington',
-		lat: 51.541374,
-		lng: -0.146492
+		lat: 51.560508, 
+		lng: -0.074084
 	},
 	{
 		name: 'Hache',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Shoreditch',
+		lat: 51.526677, 
+		lng: -0.080866
 	},
 	{
 		name: 'Mother Flipper',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Brockley Market',
+		lat: 51.468041,
+		lng: -0.025006
 	},
 	{
 		name: 'Bleeker Street',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Spitalfields',
+		lat: 51.519891, 
+		lng: -0.075201
 	},
 	{
 		name: 'Gourmet Burger Kitchen',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Soho',
+		lat: 51.513695, 
+		lng: -0.131565
 	},
 	{
-		name: 'Hawian Burger',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		name: "Kua 'Aina",
+		location: 'Soho',
+		lat: 51.513761, 
+		lng: -0.139223
 	},
 	{
 		name: 'Dip and Flip',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Clapham Junction',
+		lat: 51.460659, 
+		lng: -0.167637
 	},
 	{
 		name: 'Meat Liquor',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Marylebone',
+		lat: 51.515396,
+		lng: -0.148841
 	},
 	{
 		name: 'Brgr.co',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Soho',
+		lat: 51.515268, 
+		lng: -0.135769
 	},
 	{
 		name: 'Advisory',
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Hackney',
+		lat: 51.539571, 
+		lng: -0.056180
 	},
 	{
 		name: "Tommi's Burger Joint",
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Marylebone',
+		lat: 51.517526, 
+		lng: -0.151326
 	},
 	{
 		name: "Bread Street Kitchen",
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: "St Paul's",
+		lat: 51.513361, 
+		lng: -0.095195
 	},
 	{
 		name: "Lucky Chip",
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'Dalston',
+		lat: 51.551478, 
+		lng: -0.075309
 	},
 	{
 		name: "Elliot's Cafe",
-		location: '',
-		lat: 51.541374,
-		lng: -0.146492
+		location: 'London Bridge',
+		lat: 51.505631, 
+		lng: -0.091706
 	},
 ];
 
@@ -193,13 +193,20 @@ var ViewModel = {
 	}
 };
 
+var markersArray = [];
+function removeMarkers(){
+    for(i=0; i<markersArray.length; i++){
+        markersArray[i].setMap(null);
+    }
+}
 
 // Google map binding to handle initial loading of map and the markers on it
 ko.bindingHandlers.googleMap = {
     init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
+		// Create map
 		mapOptions = {
-	        center: { lat: 51.532112, lng: -0.106384},
-	      	zoom: 12
+	        center: { lat: 51.518180, lng: -0.111383},
+	      	zoom: 11
 	    },
       	map = new google.maps.Map(element, mapOptions);
 
@@ -212,6 +219,7 @@ ko.bindingHandlers.googleMap = {
 			    title: burger.name()
 				});
 
+		  	markersArray.push(marker);
 		  	
 		  	// On click of a map marker, set the current burger joint to that marker
 			google.maps.event.addListener(marker, 'click', function() {
@@ -224,11 +232,30 @@ ko.bindingHandlers.googleMap = {
     },
 
     update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-        // This will be called once when the binding is first applied to an element,
-        // and again whenever any observables/computeds that are accessed change
-        // Update the DOM element based on the supplied values here.
-        console.log('updated');
+        burgers = valueAccessor();
+        removeMarkers();
+
+        // For each burger joint
+		$.each(bindingContext.$data.burgers(), function(index, burger) {
+		  	// Add new marker to map
+		  	var marker = new google.maps.Marker({
+			    position: {lat: burger.lat(), lng: burger.lng()},
+			    map: map,
+			    title: burger.name()
+				});
+
+		  	markersArray.push(marker);
+		  	
+		  	// On click of a map marker, set the current burger joint to that marker
+			google.maps.event.addListener(marker, 'click', function() {
+			    ViewModel.setCurrentBurger(burger);
+			    // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+			});
+
+		});
+ 
     }
+
 };
 
 
