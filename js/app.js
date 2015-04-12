@@ -1,5 +1,3 @@
-var london = {lat: 51.532112, lng: -0.106384};
-
 var initialBurgers = [
 	{
 		name: 'Honest Burger',
@@ -53,6 +51,7 @@ var initialBurgers = [
 	{
 		name: 'Stokey Bears',
 		location: 'Stoke Newington',
+		rating: 7,
 		lat: 51.560508, 
 		lng: -0.074084
 	},
@@ -143,6 +142,8 @@ var Burger = function(data){
 	this.rating = ko.observable(data.rating);
 	this.lat = ko.observable(data.lat);
 	this.lng = ko.observable(data.lng);
+	//this.current = ko.observable(false);
+	this.visible = ko.observable(true);
 };
 
 
@@ -150,55 +151,48 @@ var Burger = function(data){
 var ViewModel = {
 	searchCriteria: ko.observable(''),
 	burgers: ko.observableArray([]),
-	mapMarkers: ko.observableArray([]),
-	searchBurgers: ko.observableArray([]),
 	currentBurger: ko.observable(),
 
 	init: function(){
-		ViewModel.burgers.removeAll();
 		initialBurgers.forEach(function(burger){
 			ViewModel.burgers.push( new Burger(burger) );
 		});
 
-		ViewModel.searchBurgers.removeAll();
-		initialBurgers.forEach(function(burger){
-			ViewModel.searchBurgers.push( new Burger(burger) );
-		});
-
+		//ViewModel.burgers()[0].current(true);
 		ViewModel.currentBurger(ViewModel.burgers()[0]);
 	},
 
 	setCurrentBurger: function(clickedBurger) {
+		// Set previous marker colour back to normal
+		//ViewModel.currentBurger().marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+
+
+		//ViewModel.currentBurger().current(true);
+		// Set new current burger with active marker colour
 		ViewModel.currentBurger(clickedBurger);
+		//ViewModel.currentBurger().marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
 	},
 
 	search: function(searchTerm){
 		var self = this;
-
 		this.searchTerm = searchTerm;
 		
-		ViewModel.init();
-	    if (searchTerm == ''){
-	    	return;
-	    } 
-	    ViewModel.burgers.removeAll();
-		
-	    ko.utils.arrayForEach(ViewModel.searchBurgers(), function(burger){
+	    ko.utils.arrayForEach(ViewModel.burgers(), function(burger){
 	      if (burger.name().toLowerCase().indexOf(self.searchTerm.toLowerCase()) >= 0) {
-	        ViewModel.burgers.push(burger);
+	        burger.visible(true);
+	        burger.marker.setMap(map);
+	      } else {
+	      	burger.visible(false);
+	      	burger.marker.setMap(null);
+	      	//console.log(burger.marker);
 	      }
 	    });
-	    ViewModel.currentBurger(ViewModel.burgers()[0]);
+	    //ViewModel.setCurrentBurger()
+	 //    ViewModel.currentBurger(ViewModel.burgers()[0]);
 
 	}
 };
 
-var markersArray = [];
-function removeMarkers(){
-    for(i=0; i<markersArray.length; i++){
-        markersArray[i].setMap(null);
-    }
-}
 
 // Google map binding to handle initial loading of map and the markers on it
 ko.bindingHandlers.googleMap = {
@@ -212,50 +206,24 @@ ko.bindingHandlers.googleMap = {
 
       	// For each burger joint
 		$.each(bindingContext.$data.burgers(), function(index, burger) {
-		  	// Add new marker to map
-		  	var marker = new google.maps.Marker({
+
+			// Set burger marker
+			burger.marker = new google.maps.Marker({
 			    position: {lat: burger.lat(), lng: burger.lng()},
 			    map: map,
 			    title: burger.name()
 				});
 
-		  	markersArray.push(marker);
-		  	
-		  	// On click of a map marker, set the current burger joint to that marker
-			google.maps.event.addListener(marker, 'click', function() {
+		  	//On click of a map marker, set the current burger joint to that marker
+			google.maps.event.addListener(burger.marker, 'click', function() {
 			    ViewModel.setCurrentBurger(burger);
-			    // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
 			});
 
 		});
 
-    },
-
-    update: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
-        burgers = valueAccessor();
-        removeMarkers();
-
-        // For each burger joint
-		$.each(bindingContext.$data.burgers(), function(index, burger) {
-		  	// Add new marker to map
-		  	var marker = new google.maps.Marker({
-			    position: {lat: burger.lat(), lng: burger.lng()},
-			    map: map,
-			    title: burger.name()
-				});
-
-		  	markersArray.push(marker);
-		  	
-		  	// On click of a map marker, set the current burger joint to that marker
-			google.maps.event.addListener(marker, 'click', function() {
-			    ViewModel.setCurrentBurger(burger);
-			    // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
-			});
-
-		});
- 
+		// Set current burger marker as active
+		//ViewModel.currentBurger().marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
     }
-
 };
 
 

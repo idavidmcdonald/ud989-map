@@ -19,7 +19,8 @@
 
                 <!-- Burger list -->
             	<div data-bind="foreach: burgers">
-            		<div class="burgerListItem" data-bind="click: $root.setCurrentBurger, css: { ratedBurger: $data.rating }">
+                    <!-- ko if: $data.visible -->
+            		<div class="burgerListItem" data-bind="click: $root.setCurrentBurger">
                         <span data-bind="text: $data.name"></span>
                         
                         <!-- ko if: $data.rating -->
@@ -29,6 +30,7 @@
                             <span class="burgerListRating">--</span>
                         <!-- /ko -->
                     </div>
+                    <!-- /ko -->
             	</div> 
 
             </div>
