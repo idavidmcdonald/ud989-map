@@ -1,62 +1,70 @@
 <!doctype html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>ud989-map</title>
-        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
+		<title>London Burgers</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 
 	<body>
-        <!-- Sidebar burger list -->
-        <div class="row">
-            <div id="burgerList" class="col-md-4">
-                <!-- Title -->
-            	<h1 id="pageTitle">London Burgers</h1>
+    <!-- Sidebar burger list -->
+    <div class="row">
+      <div id="burgerList" class="col-md-4">
+        <!-- Title and search-->
+        <h1 id="pageTitle">London Burgers</h1>
 
-                <!-- Search -->
-            	<input id="burgerListSearch" placeholder="Search burger joints..." type="text" data-bind="textInput: searchCriteria"></input>
+        <input id="burgerListSearch" placeholder="Search burger joints..." type="text" data-bind="textInput: searchCriteria"></input>
 
-                <!-- Burger list -->
-            	<div data-bind="foreach: burgers">
-                    <!-- ko if: $data.visible -->
-            		<div class="burgerListItem" data-bind="click: $root.setCurrentBurger">
-                        <span data-bind="text: $data.name"></span>
-                        
-                        <!-- ko if: $data.rating -->
-                            <span class="burgerListRating" data-bind="text: $data.rating"></span>
-                        <!-- /ko -->
-                        <!-- ko ifnot: $data.rating -->
-                            <span class="burgerListRating">--</span>
-                        <!-- /ko -->
-                    </div>
-                    <!-- /ko -->
-            	</div> 
+        <!-- Burger list -->
+        <div data-bind="foreach: burgers">
+          <!-- ko if: $data.visible -->
+        	<div class="burgerListItem" data-bind="click: $root.setCurrentBurger">
+            <span data-bind="text: $data.name"></span>
+              <!-- ko if: $data.rating -->
+                <span class="burgerListRating" data-bind="text: $data.rating"></span>
+              <!-- /ko -->
+              <!-- ko ifnot: $data.rating -->
+                <span class="burgerListRating">--</span>
+              <!-- /ko -->
+          </div>
+          <!-- /ko -->
+        </div> 
+      </div>
 
-            </div>
-            <div id="content" class="col-md-8">
-                <!-- Google Map -->
-                <div id="map-canvas" style="height: 300px;" data-bind="googleMap: burgers()"></div>
+      <div id="content" class="col-md-8">
+        <!-- Google Map -->
+        <div id="map-canvas" style="height: 300px;" data-bind="googleMap: burgers()"></div>
 
-                <!-- Current burger -->
-                <div data-bind="with: currentBurger">
-                        <h3 data-bind="text: name"></h3>
-                        Location: <span data-bind="text: location"></span><br>
-                        Burger rating: 
-                        <!-- ko if: $data.rating -->
-                            <span data-bind="text: rating"></span>/10
-                        <!-- /ko -->
-                        <!-- ko ifnot: $data.rating -->
-                            <span>Not yet rated</span>
-                        <!-- /ko -->
-                        
-                </div>
-            </div>
+        <!-- Current burger -->
+        <div data-bind="with: currentBurger">
+          <h3 data-bind="text: name"></h3>
+            Location: <span data-bind="text: location"></span><br>
+            Burger rating: 
+            <!-- ko if: $data.rating -->
+              <span data-bind="text: rating"></span>/10
+            <!-- /ko -->
+            <!-- ko ifnot: $data.rating -->
+              <span>Not yet rated</span>
+            <!-- /ko -->       
         </div>
+      </div>
+    </div>
 
 		<script src="bower_components/knockout/dist/knockout.js"></script>
 		<script src="bower_components/jquery/dist/jquery.js"></script>
 		<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwLl-8MR0B_CTxLwlXDw6pYBFFwaqwW6Q"></script>
 		<script src="js/app.js"></script>
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-53702376-2', 'auto');
+      ga('send', 'pageview');
+    </script>
+
 	</body>
 </html>
