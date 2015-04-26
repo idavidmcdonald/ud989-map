@@ -1,8 +1,10 @@
-var initialBurgers = [
+var burgerData = [
 	{
 		name: 'Honest Burger',
 		location: 'Camden',
 		rating: 8.5,
+		price: 9,
+		includesChips: true,
 		lat: 51.541374,
 		lng: -0.146492
 	},
@@ -10,6 +12,8 @@ var initialBurgers = [
 		name: 'Wild Game Co.',
 		location: 'Old Street',
 		rating: 7.5,
+		price: 6,
+		includesChips: false,
 		lat: 51.523047,
 		lng: -0.092878
 	},
@@ -17,13 +21,15 @@ var initialBurgers = [
 		name: 'Byron Burger',
 		location: 'Soho',
 		rating: 6,
+		includesChips: false,
 		lat: 51.513037,
 		lng: -0.133858
 	},
 	{
 		name: 'Dirty Burger',
 		location: 'Kentish Town',
-		rating: 7,
+		rating: 6.5,
+		includesChips: false,
 		lat: 51.554122,
 		lng: -0.145158
 	},
@@ -31,6 +37,7 @@ var initialBurgers = [
 		name: 'Shake Shack',
 		location: 'Covent Garden',
 		rating: 5,
+		includesChips: false,
 		lat: 51.511507,
 		lng: -0.122751
 	},
@@ -38,6 +45,7 @@ var initialBurgers = [
 		name: 'Patty and Bun',
 		location: 'Liverpool Street',
 		rating: 7,
+		includesChips: false,
 		lat: 51.517349,
 		lng: -0.082100
 	},
@@ -45,6 +53,7 @@ var initialBurgers = [
 		name: '5 Guys',
 		location: 'Covent Garden',
 		rating: 5,
+		includesChips: false,
 		lat: 51.511890, 
 		lng: -0.126894
 	},
@@ -52,6 +61,7 @@ var initialBurgers = [
 		name: 'Stokey Bears',
 		location: 'Stoke Newington',
 		rating: 7,
+		includesChips: false,
 		lat: 51.560508, 
 		lng: -0.074084
 	},
@@ -70,6 +80,9 @@ var initialBurgers = [
 	{
 		name: 'Bleeker Street',
 		location: 'Spitalfields',
+		rating: 4.5,
+		price: 6,
+		includesChips: false,
 		lat: 51.519891, 
 		lng: -0.075201
 	},
@@ -154,11 +167,34 @@ var ViewModel = {
 	currentBurger: ko.observable(),
 
 	init: function(){
-		initialBurgers.forEach(function(burger){
+		// Get burgers 
+		burgerData.forEach(function(burger){
 			ViewModel.burgers.push( new Burger(burger) );
 		});
 
-		//ViewModel.burgers()[0].current(true);
+		// Sort burgers by rating desc, name asc
+		ViewModel.burgers.sort(function(left, right) { 
+			if (left.rating() == right.rating()) {
+				// Same rating, so sort alphabetically on name
+				return left.name() == right.name() ? 0 : (left.name() < right.name() ? -1 : 1);
+			};
+
+			// One Undefined rating
+			if (left.rating() == undefined) {
+				return 1;
+			} else if (right.rating() == undefined) {
+				return -1;
+			};
+
+			// Both defined non equal ratings
+			if (left.rating() < right.rating()){
+	            return 1;
+	        } else if (left.rating() > right.rating()){
+	            return -1;
+	        } 
+		});
+
+		// Set first burger as current burger
 		ViewModel.currentBurger(ViewModel.burgers()[0]);
 	},
 
