@@ -7,7 +7,7 @@ var burgerData = [
 		includesChips: true,
 		lat: 51.541374,
 		lng: -0.146492,
-		review: "Good sized cheeseburger, brioche bun, with your choice of cheddar, red leicster or stilton - I went for the cheddar. Comes with a super tasty red onion relish. Mostly importantly, the meat has been the juiciest and best seasoned, literally driblling with juices. Comes with their rosemary salt fries as default. I've been a few times and Honest Burger will give you a consistently great burger, there isn't really anything about the burger not up to scratch."
+		review: "Good sized cheeseburger, brioche bun, with your choice of cheddar, red leicester or stilton - I went for the cheddar. Comes with a super tasty red onion relish. Mostly importantly, the meat has been the juiciest and best seasoned, literally driblling with juices. Comes with their rosemary salt fries as default. I've been a few times and Honest Burger will give you a consistently great burger, there isn't really anything about the burger not up to scratch."
 	},
 	{
 		name: 'Wild Game Co.',
