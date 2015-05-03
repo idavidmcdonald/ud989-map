@@ -21,6 +21,7 @@ var burgerData = [
 		name: 'Byron Burger',
 		location: 'Soho',
 		rating: 6,
+		price: 7.95,
 		includesChips: false,
 		lat: 51.513037,
 		lng: -0.133858
@@ -29,6 +30,7 @@ var burgerData = [
 		name: 'Dirty Burger',
 		location: 'Kentish Town',
 		rating: 6.5,
+		price: 6,
 		includesChips: false,
 		lat: 51.554122,
 		lng: -0.145158
@@ -37,6 +39,7 @@ var burgerData = [
 		name: 'Shake Shack',
 		location: 'Covent Garden',
 		rating: 5,
+		price: 5,
 		includesChips: false,
 		lat: 51.511507,
 		lng: -0.122751
@@ -45,6 +48,7 @@ var burgerData = [
 		name: 'Patty and Bun',
 		location: 'Liverpool Street',
 		rating: 7,
+		price: 7.5,
 		includesChips: false,
 		lat: 51.517349,
 		lng: -0.082100
@@ -53,6 +57,7 @@ var burgerData = [
 		name: '5 Guys',
 		location: 'Covent Garden',
 		rating: 5,
+		price: 8,
 		includesChips: false,
 		lat: 51.511890, 
 		lng: -0.126894
@@ -61,6 +66,7 @@ var burgerData = [
 		name: 'Stokey Bears',
 		location: 'Stoke Newington',
 		rating: 7,
+		price: 7.5,
 		includesChips: false,
 		lat: 51.560508, 
 		lng: -0.074084
@@ -153,6 +159,8 @@ var Burger = function(data){
 	this.name = ko.observable(data.name);
 	this.location = ko.observable(data.location);
 	this.rating = ko.observable(data.rating);
+	this.price = ko.observable(data.price);
+	this.includesChips = ko.observable(data.includesChips);
 	this.lat = ko.observable(data.lat);
 	this.lng = ko.observable(data.lng);
 	//this.current = ko.observable(false);

@@ -40,9 +40,13 @@
         <div data-bind="with: currentBurger">
           <h3 data-bind="text: name"></h3>
             Location: <span data-bind="text: location"></span><br>
-            Burger rating: 
+            
             <!-- ko if: $data.rating -->
-              <span data-bind="text: rating"></span>/10
+              Burger rating: <span data-bind="text: rating"></span>/10<br>
+              Price: £<span data-bind="text: price"></span>
+              <!-- ko if: $data.includesChips -->
+                (includes fries)
+              <!-- /ko -->
             <!-- /ko -->
             <!-- ko ifnot: $data.rating -->
               <span>Not yet rated</span>
